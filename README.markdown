@@ -104,6 +104,10 @@ This will create a JavaDoc JAR under `target`.
             ...
         </manifest>
 
+1.  Add to your `AndroidManifest.xml` the following permission:
+
+        <uses-permission android:name="android.permission.GET_TASKS"/>
+
 ## Alternative source checkout install
 
 If you prefer to avoid maven and/or binary jar files, you might want to try a different approach where the source code from github is checkout out as a submodule inside your own github project in a separate subdirectory. The advantage is you don't have to mess with additional software installation if you already have Eclipse (which seems required to do Android work anyway). The disadvantage is that the checkout process is slightly more complicated and opening the project in Eclipse doesn't compile straight out of the box because you have to tweak build paths to get it working.
