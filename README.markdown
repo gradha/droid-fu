@@ -104,6 +104,30 @@ This will create a JavaDoc JAR under `target`.
             ...
         </manifest>
 
+## Alternative source checkout install
+
+If you prefer to avoid maven and/or binary jar files, you might want to try a different approach where the source code from github is checkout out as a submodule inside your own github project in a separate subdirectory. The advantage is you don't have to mess with additional software installation if you already have Eclipse (which seems required to do Android work anyway). The disadvantage is that the checkout process is slightly more complicated and opening the project in Eclipse doesn't compile straight out of the box because you have to tweak build paths to get it working.
+
+Having said that, if you have a github project, these would be the steps to perform:
+
+1. At the top of your project run:
+
+        $ git submodule init
+        $ git submodule add git://github.com/gradha/droid-fu.git external/droid-fu
+        $ cd external/droid-fu
+        $ git checkout source_install
+
+1. The previous commands initialised your git repository to contain a `.gitmodules` file which is used to track the external git repositories. The `add` command created an external dependency to this git repository. The last checkout changed from the `master` to the `source_install` branch which contains some changes to make this type of integration work better.
+
+1. If you run a `git status` command at the root you should see changes in the `.gitmodules` and `external/droid-fu` directory. You can add them and commit them. This will fix the external repository checkout to that version forever. If the external repository gets changed, you will need to run a `git pull` inside the module and commit the pull at the root of your project. These, and other related tips can be found on your git-submodule man page. Please check it out.
+
+1. Placing the `droid-fu` subdirectory inside an `external` directory makes it more obvious that it is not part of the original tree, and also allows adding more external checkouts in case you need them.
+
+1. While all this is fine for git, now you need to tell Eclipse to look for this new external directory in your project. Open Eclipse and open the properties of your project. In the "Java Build Path" section you should see that Eclipse contains by default a `project/gen` and `project/src` entries. Click on the "Add Folder" button and add the path `external/droid-fu/src/main/java`.
+
+1. Done! Now you can `import com.github.droidfu.whatever` and it will work. If you are not using the `source_install` branch of the `gradha` fork, just change the commands to check out any other repo. Even if you don't plan to contribute code upstream, it is recommended that in your project you check out a fork under your control. If for some reason the upstream project was deleted you won't loose your fork (or so I've heard). It also makes more obvious updating the repo to a specific version.
+
+
 ## How is it licensed?
 
 Droid-Fu is free and open source and may be used under the terms of the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
