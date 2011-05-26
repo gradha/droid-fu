@@ -1,6 +1,9 @@
-target
-gen
-bin
+*.diff
+*.iml
+*.orig
+*.swp
 *DS_Store
 *~
-*.iml
+bin
+gen
+target
